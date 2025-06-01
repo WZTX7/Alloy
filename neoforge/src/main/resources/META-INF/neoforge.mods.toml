@@ -1,0 +1,38 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+#issueTrackerURL = ""
+license = "MIT"
+
+[[mods]]
+modId = "alloy"
+version = "${version}"
+displayName = "Alloycraft"
+authors = "WZTX, Candy_OoO"
+description = '''
+A mod allows you melt, mix, crystalize different materials and smith them to alloys
+'''
+#logoFile = ""
+
+[[dependencies.alloy]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.alloy]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.3,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.alloy]]
+modId = "architectury"
+type = "required"
+versionRange = "[14.0.4,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[mixins]]
+config = "alloy.mixins.json"

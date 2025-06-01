@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "alloy",
+  "version": "${version}",
+  "name": "Alloycraft",
+  "description": "A mod allows you melt, mix, crystalize different materials and smith them to alloys",
+  "authors": ["WZTX", "Candy_OoO"],
+  "contact": {
+    "homepage": "game.friendcraft.top/minecraft-mods/alloy/"  },
+  "license": "MIT",
+  "icon": "assets/alloy/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "top.friendcraft.alloy.alloy.fabric.AlloyFabric"
+    ],
+    "client": [
+      "top.friendcraft.alloy.alloy.fabric.client.AlloyFabricClient"
+    ]
+  },
+  "mixins": [
+    "alloy.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "~1.21.3",
+    "java": ">=21"
+    ,"architectury": ">=14.0.4"
+    ,"fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}
