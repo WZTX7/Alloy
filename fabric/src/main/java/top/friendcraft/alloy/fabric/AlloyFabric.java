@@ -1,6 +1,6 @@
-package top.friendcraft.alloy.alloy.fabric;
+package top.friendcraft.alloy.fabric;
 
-import top.friendcraft.alloy.alloy.Alloy;
+import top.friendcraft.alloy.Alloy;
 import net.fabricmc.api.ModInitializer;
 
 public final class AlloyFabric implements ModInitializer {

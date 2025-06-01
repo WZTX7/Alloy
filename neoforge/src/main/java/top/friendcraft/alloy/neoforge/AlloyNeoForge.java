@@ -1,6 +1,6 @@
-package top.friendcraft.alloy.alloy.neoforge;
+package top.friendcraft.alloy.neoforge;
 
-import top.friendcraft.alloy.alloy.Alloy;
+import top.friendcraft.alloy.Alloy;
 import net.neoforged.fml.common.Mod;
 
 @Mod(Alloy.MOD_ID)

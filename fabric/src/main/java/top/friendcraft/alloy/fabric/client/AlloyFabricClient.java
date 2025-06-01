@@ -1,4 +1,4 @@
-package top.friendcraft.alloy.alloy.fabric.client;
+package top.friendcraft.alloy.fabric.client;
 
 import net.fabricmc.api.ClientModInitializer;
 

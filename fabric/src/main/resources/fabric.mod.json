@@ -12,10 +12,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "top.friendcraft.alloy.alloy.fabric.AlloyFabric"
+      "top.friendcraft.alloy.fabric.AlloyFabric"
     ],
     "client": [
-      "top.friendcraft.alloy.alloy.fabric.client.AlloyFabricClient"
+      "top.friendcraft.alloy.fabric.client.AlloyFabricClient"
     ]
   },
   "mixins": [
