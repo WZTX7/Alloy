@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "melt_core",
+  "key": {
+    "#": "minecraft:deepslate_bricks",
+    "O": "minecraft:blast_furnace",
+    "C": "minecraft:copper_ingot",
+    "R": "minecraft:redstone"
+  },
+  "pattern": [
+    "C#C",
+    "#O#",
+    "R#R"
+  ],
+  "result": {
+    "count": 1,
+    "id": "alloy:base_melt_furnace_core"
+  }
+}

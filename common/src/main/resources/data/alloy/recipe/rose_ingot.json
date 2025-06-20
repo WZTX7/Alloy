@@ -1,0 +1,14 @@
+{
+  "type": "alloy:melting",
+  "group": "alloys",
+  "cookingtime": 500,
+  "ingredients": [
+    "minecraft:copper_ingot",
+    "minecraft:copper_ingot",
+    "minecraft:gold_ingot"
+  ],
+  "result": {
+    "count": 1,
+    "id": "alloy:rose_gold_ingot"
+  }
+}
