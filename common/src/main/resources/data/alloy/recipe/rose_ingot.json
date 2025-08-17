@@ -1,7 +1,6 @@
 {
   "type": "alloy:melting",
   "group": "alloys",
-  "cookingtime": 500,
   "ingredients": [
     "minecraft:copper_ingot",
     "minecraft:copper_ingot",

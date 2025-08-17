@@ -2,7 +2,7 @@
   "type": "alloy:melting",
   "group": "alloys",
   "minlevel": 2,
-  "cookingtime": 1000,
+  "cookingtime": 4000,
   "experience": 50.0,
   "ingredients": [
     "minecraft:crying_obsidian",
@@ -15,6 +15,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "alloy:rose_gold_ingot"
+    "id": "alloy:obsidianite_ingot"
   }
 }

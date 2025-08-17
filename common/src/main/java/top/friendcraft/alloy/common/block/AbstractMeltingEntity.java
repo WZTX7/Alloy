@@ -2,10 +2,7 @@ package top.friendcraft.alloy.common.block;
 
 import com.mojang.logging.LogUtils;
 import dev.architectury.registry.fuel.FuelRegistry;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -17,11 +14,16 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.AbstractFurnaceBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.FuelValues;
+import net.minecraft.world.level.block.entity.TheEndGatewayBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.pattern.BlockInWorld;
+import net.minecraft.world.level.block.state.pattern.BlockPattern;
+import net.minecraft.world.level.block.state.pattern.BlockPatternBuilder;
+import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import top.friendcraft.alloy.Alloy;
@@ -41,6 +43,24 @@ public abstract class AbstractMeltingEntity extends BaseContainerBlockEntity imp
     protected final ContainerData dataAccess;
     int levels;
     private final RecipeManager.CachedCheck<MeltingInput, MeltingRecipe> quickCheck;
+    boolean isFast = false;
+
+    private static final BlockPattern SPEED = BlockPatternBuilder.start()
+            .aisle( "?????",
+                    "?DDD?",
+                    "?DDD?",
+                    "?DVD?",
+                    "?????")
+            .aisle( "?DDD?",
+                    "DDLDD",
+                    "DLLLD",
+                    "DDLDD",
+                    "?DDD?")
+            .where('?', BlockInWorld.hasState(BlockStatePredicate.ANY))
+            .where('D', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.DEEPSLATE_BRICKS).or(BlockStatePredicate.forBlock(Blocks.POLISHED_DEEPSLATE))))
+            .where('L', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.LAVA)))
+            .where('V', BlockInWorld.hasState(BlockStatePredicate.forBlock(Alloy.base_core.block.get())))
+            .build();
 
     protected AbstractMeltingEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState, int levels) {
         super(blockEntityType, blockPos, blockState);
@@ -149,7 +169,8 @@ public abstract class AbstractMeltingEntity extends BaseContainerBlockEntity imp
             }
             if (isLit() && canBurn(level.registryAccess(), recipeHolder, input)) {
                 ++cookingProgress;
-                if (cookingProgress == cookingTotalTime) {
+                if (isFast) cookingProgress+=3;
+                if (cookingProgress >= cookingTotalTime) {
                     cookingProgress = 0;
                     cookingTotalTime = getTotalCookTime(level);
                     boolean used = burn(level.registryAccess(), recipeHolder, input);
@@ -167,6 +188,19 @@ public abstract class AbstractMeltingEntity extends BaseContainerBlockEntity imp
         if (isStatusChanged) {
             setChanged(level, pos, state);
         }
+        if (!(state.getBlock() instanceof AbstractMeltFurnaceCore) || levels != 1)
+            return;
+        Direction oppsite_direction = state.getValue(AbstractMeltFurnaceCore.FACING).getOpposite();
+        int x = oppsite_direction.getUnitVec3i().getX(); // 初始偏移量X
+        int y = oppsite_direction.getUnitVec3i().getY(); // 初始偏移量Y
+        int z = oppsite_direction.getUnitVec3i().getZ(); // 初始偏移量Z
+        BlockPos posA = pos.offset(
+                x+z+x+x+z,
+                y,
+                z-x+z+z-x
+        ); // 偏移量
+        isFast = SPEED.find(level, posA) != null;
+        if (isFast) logger.info("fast");
     }
 
     protected int getBurnDuration(FuelValues fuelValues, ItemStack stack) {
@@ -222,7 +256,6 @@ public abstract class AbstractMeltingEntity extends BaseContainerBlockEntity imp
                 this.setChanged();
             }
         }
-
     }
 
     private boolean canBurn(RegistryAccess access, @Nullable RecipeHolder<MeltingRecipe> recipe, MeltingInput input) {

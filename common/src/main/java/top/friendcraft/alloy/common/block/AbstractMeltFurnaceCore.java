@@ -75,7 +75,7 @@ public abstract class AbstractMeltFurnaceCore extends BaseEntityBlock {
     protected static <T extends BlockEntity> BlockEntityTicker<T> createFurnaceTicker(Level level, BlockEntityType<T> serverType, BlockEntityType<? extends AbstractMeltingEntity> clientType) {
         BlockEntityTicker<T> ticker = null;
         if (level instanceof ServerLevel serverLevel) {
-            ticker = createTickerHelper(serverType, clientType, (levelx, blockPos, blockState, abstractFurnaceBlockEntity) -> {
+            ticker = createTickerHelper(serverType, clientType, (level_, blockPos, blockState, abstractFurnaceBlockEntity) -> {
                 AbstractMeltingEntity.serverTick(serverLevel, blockPos, blockState, abstractFurnaceBlockEntity);
             });
         }

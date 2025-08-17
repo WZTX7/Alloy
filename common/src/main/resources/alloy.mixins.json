@@ -1,11 +1,12 @@
 {
   "required": true,
-  "package": "top.friendcraft.alloy.alloy.mixin",
+  "package": "top.friendcraft.alloy.mixin",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
   ],
   "mixins": [
+    "MixinContainerEntity"
   ],
   "injectors": {
     "defaultRequire": 1

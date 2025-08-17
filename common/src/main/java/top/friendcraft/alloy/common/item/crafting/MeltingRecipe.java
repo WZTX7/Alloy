@@ -31,7 +31,6 @@ public class MeltingRecipe implements Recipe<MeltingInput> {
 
     public MeltingRecipe(String group, ItemStack result, List<Ingredient> ingredients, float experience, int cookingTime, int minLevels) {
         logger.info("Successfully Register");
-        logger.info("First Item: "+ingredients.getFirst().items().getFirst().value());
         this.group = group;
         this.result = result;
         this.ingredients = ingredients;
@@ -98,7 +97,7 @@ public class MeltingRecipe implements Recipe<MeltingInput> {
     }
 
     public static final class Serializer implements RecipeSerializer<MeltingRecipe> {
-        public static final int defaultCookingTime = 800;
+        public static final int defaultCookingTime = 3200;
 
         @Override
         public MapCodec<MeltingRecipe> codec() {

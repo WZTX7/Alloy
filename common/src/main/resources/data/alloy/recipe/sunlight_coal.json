@@ -1,0 +1,8 @@
+{
+  "type": "alloy:sunlight_recipe",
+  "group": "coal_active",
+  "input": "minecraft:coal",
+  "result": {
+    "id": "alloy:sunlight_coal"
+  }
+}

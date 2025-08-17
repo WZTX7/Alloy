@@ -36,9 +36,14 @@ public class AbstractMeltingControlScreen<T extends AbstractMeltingControlMenu> 
             l = Mth.ceil(this.menu.getLitProgress() * 13.0F) + 1;
             guiGraphics.blitSprite(RenderType::guiTextured, this.litProgressSprite, 14, 14, 0, 14 - l, i + 56-9, j + 36 + 14 - l, 14, l);
         }
-
         k = true;
         l = Mth.ceil(this.menu.getBurnProgress() * 24.0F);
         guiGraphics.blitSprite(RenderType::guiTextured, this.burnProgressSprite, 24, 16, 0, 0, i + 88, j + 34, l, 16);
+    }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        super.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 }

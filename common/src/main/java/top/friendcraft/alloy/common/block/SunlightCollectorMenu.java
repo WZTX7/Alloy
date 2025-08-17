@@ -1,5 +1,6 @@
 package top.friendcraft.alloy.common.block;
 
+import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -24,7 +25,7 @@ public class SunlightCollectorMenu extends AbstractContainerMenu {
     }
 
     public SunlightCollectorMenu(int containerId, Inventory inventory) {
-        this(containerId, inventory, new SimpleContainer(2), new SimpleContainerData(1));
+        this(containerId, inventory, new SimpleContainer(2), new SimpleContainerData(3));
     }
 
     @Override
@@ -35,6 +36,18 @@ public class SunlightCollectorMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player player) {
         return container.stillValid(player);
+    }
+
+    public float getBurnProgress() {
+        int i = this.data.get(0);
+        int j = this.data.get(1);
+        return j != 0 && i != 0 ? Mth.clamp((float)i / (float)j, 0.0F, 1.0F) : 0.0F;
+    }
+
+    public float getCollectingProgress() {
+        int i = this.data.get(2);
+        int j = 200;
+        return i != 0 ? Mth.clamp((float)i / (float)j, 0.0F, 1.0F) : 0.0F;
     }
 
     private static final class ResultSlot extends Slot {

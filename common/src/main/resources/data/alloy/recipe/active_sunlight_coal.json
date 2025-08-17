@@ -1,0 +1,9 @@
+{
+  "type": "alloy:sunlight_recipe",
+  "group": "coal_active",
+  "input": "alloy:sunlight_coal",
+  "result": {
+    "id": "alloy:active_sunlight_coal"
+  },
+  "mixingTime": 600
+}

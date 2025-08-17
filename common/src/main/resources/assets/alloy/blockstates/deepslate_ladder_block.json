@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "alloy:block/deepslate_ladder_block"
+    },
+    "facing=east": {
+      "model": "alloy:block/deepslate_ladder_block",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "alloy:block/deepslate_ladder_block",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "alloy:block/deepslate_ladder_block",
+      "y": 270
+    }
+  }
+}
