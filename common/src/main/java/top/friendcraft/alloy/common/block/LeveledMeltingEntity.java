@@ -21,8 +21,8 @@ public class LeveledMeltingEntity extends AbstractMeltingEntity {
 
     public static BlockEntityType<LeveledMeltingEntity> switchEntityType(int levels) {
         return switch (levels) {
-            case 2 -> Alloy.steel_entity.get();
-            default -> Alloy.base_entity.get();
+            case 2 -> Alloy.blocks.steel_entity.get();
+            default -> Alloy.blocks.base_entity.get();
         };
     }
 }

@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import top.friendcraft.alloy.Alloy;
 import net.fabricmc.api.ModInitializer;
+import top.friendcraft.alloy.core.registry.RegistryHolder;
 
 public final class AlloyFabric implements ModInitializer {
     @Override
@@ -15,6 +16,7 @@ public final class AlloyFabric implements ModInitializer {
 
         // Run our common setup.
         Alloy.init();
+        RegistryHolder.register();
         Alloy.registerFuels();
     }
 }

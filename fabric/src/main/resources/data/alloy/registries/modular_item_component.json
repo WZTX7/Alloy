@@ -1,0 +1,5 @@
+{
+  "type": "alloy:modular_item_component",
+  "factory": "default",
+  "sync_type": "registry"
+}

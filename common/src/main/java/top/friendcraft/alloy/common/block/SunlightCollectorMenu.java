@@ -14,7 +14,7 @@ public class SunlightCollectorMenu extends AbstractContainerMenu {
     Container container;
     ContainerData data;
     public SunlightCollectorMenu(int containerId, Inventory inventory, Container container, ContainerData data) {
-        super(Alloy.sunlight_collector_menu.get(), containerId);
+        super(Alloy.blocks.sunlight_collector_menu.get(), containerId);
         this.inventory = inventory;
         this.container = container;
         this.data = data;

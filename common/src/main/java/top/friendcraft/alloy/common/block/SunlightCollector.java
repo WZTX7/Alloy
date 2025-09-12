@@ -55,7 +55,7 @@ public class SunlightCollector extends BaseEntityBlock {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> serverType) {
         BlockEntityTicker<T> ticker = null;
         if (level instanceof ServerLevel serverLevel) {
-            ticker = createTickerHelper(serverType, Alloy.sunlight_collector_entity.get(), (level_, blockPos, blockState, abstractFurnaceBlockEntity) -> {
+            ticker = createTickerHelper(serverType, Alloy.blocks.sunlight_collector_entity.get(), (level_, blockPos, blockState, abstractFurnaceBlockEntity) -> {
                 abstractFurnaceBlockEntity.tick(serverLevel, blockPos, blockState);
             });
         }

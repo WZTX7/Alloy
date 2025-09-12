@@ -18,8 +18,8 @@ public class LeveledMeltingControlMenu extends AbstractMeltingControlMenu{
 
     private static MenuType<LeveledMeltingControlMenu> chooseByLevel(int levels) {
         return switch (levels) {
-            case 2 -> Alloy.steel_menu.get();
-            default -> Alloy.base_menu.get();
+            case 2 -> Alloy.blocks.steel_menu.get();
+            default -> Alloy.blocks.base_menu.get();
         };
     }
 }

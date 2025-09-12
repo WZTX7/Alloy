@@ -22,12 +22,12 @@ public class SunlightRecipe extends SingleItemRecipe {
 
     @Override
     public RecipeSerializer<? extends SingleItemRecipe> getSerializer() {
-        return Alloy.sunlight_serializer.get();
+        return Alloy.blocks.sunlight_serializer.get();
     }
 
     @Override
     public RecipeType<? extends SingleItemRecipe> getType() {
-        return Alloy.sunlight_recipe.get();
+        return Alloy.blocks.sunlight_recipe.get();
     }
 
     @Override

@@ -72,13 +72,13 @@ public class MeltingRecipe implements Recipe<MeltingInput> {
     @Override
     @NotNull
     public RecipeSerializer<? extends Recipe<MeltingInput>> getSerializer() {
-        return Alloy.serializer.get();
+        return Alloy.blocks.serializer.get();
     }
 
     @Override
     @NotNull
     public RecipeType<? extends Recipe<MeltingInput>> getType() {
-        return Alloy.recipe.get();
+        return Alloy.blocks.recipe.get();
     }
 
     @Override

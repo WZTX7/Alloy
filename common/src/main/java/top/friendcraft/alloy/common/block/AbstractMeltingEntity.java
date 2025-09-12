@@ -59,7 +59,7 @@ public abstract class AbstractMeltingEntity extends BaseContainerBlockEntity imp
             .where('?', BlockInWorld.hasState(BlockStatePredicate.ANY))
             .where('D', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.DEEPSLATE_BRICKS).or(BlockStatePredicate.forBlock(Blocks.POLISHED_DEEPSLATE))))
             .where('L', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.LAVA)))
-            .where('V', BlockInWorld.hasState(BlockStatePredicate.forBlock(Alloy.base_core.block.get())))
+            .where('V', BlockInWorld.hasState(BlockStatePredicate.forBlock(Alloy.blocks.base_core.block.get())))
             .build();
 
     protected AbstractMeltingEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState, int levels) {
@@ -89,7 +89,7 @@ public abstract class AbstractMeltingEntity extends BaseContainerBlockEntity imp
             }
         };
         this.levels = levels;
-        this.quickCheck = RecipeManager.createCheck(Alloy.recipe.get());
+        this.quickCheck = RecipeManager.createCheck(Alloy.blocks.recipe.get());
     }
 
     @Override
@@ -204,7 +204,7 @@ public abstract class AbstractMeltingEntity extends BaseContainerBlockEntity imp
     }
 
     protected int getBurnDuration(FuelValues fuelValues, ItemStack stack) {
-        return FuelRegistry.get(stack, Alloy.recipe.get(), fuelValues);
+        return FuelRegistry.get(stack, Alloy.blocks.recipe.get(), fuelValues);
     }
 
     protected int checkLitDurationData() {

@@ -1,6 +1,5 @@
 package top.friendcraft.alloy.common.item;
 
-import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.Util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -15,11 +14,12 @@ import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
 import top.friendcraft.alloy.Alloy;
+import top.friendcraft.alloy.core.registry.RegistrySupplier;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-public record ArmorSet(RegistrySupplier<ArmorItem> head, RegistrySupplier<ArmorItem> chest, RegistrySupplier<ArmorItem> leg, RegistrySupplier<ArmorItem> feet) {
+public record ArmorSet(RegistrySupplier<Item, ArmorItem> head, RegistrySupplier<Item, ArmorItem> chest, RegistrySupplier<Item, ArmorItem> leg, RegistrySupplier<Item, ArmorItem> feet) {
     private static final EquipmentModel MODEL_ROSE_GOLD = new EquipmentModel("rose_gold");
     private static final EquipmentModel MODEL_OBSIDIANITE = new EquipmentModel("obsdianite");
     private static final EquipmentModel MODEL_ENHANCED_NETHERITE = new EquipmentModel("enhanced_netherite");
@@ -54,11 +54,11 @@ public record ArmorSet(RegistrySupplier<ArmorItem> head, RegistrySupplier<ArmorI
     }), 10, SoundEvents.ARMOR_EQUIP_IRON, 0.0F, 0.0F, MODEL_STEEL.key(), EquipmentAssets.IRON);
     private record EquipmentModel(String id) {
         public ResourceKey<EquipmentAsset> model() {
-            return ResourceKey.create(EquipmentAssets.ROOT_ID, ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, id));
+            return Alloy.getRegistryKey(EquipmentAssets.ROOT_ID, id);
         }
 
         public TagKey<Item> key() {
-            return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, "repairs_"+id+"_armor"));
+            return TagKey.create(Registries.ITEM, Alloy.getIdentifier("repairs_"+id+"_armor"));
         }
     }
 }

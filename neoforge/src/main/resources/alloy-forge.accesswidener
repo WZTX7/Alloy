@@ -1,0 +1,8 @@
+accessWidener v2 named
+
+accessible  method   net/minecraft/world/level/block/entity/BlockEntityType   <init>   (Lnet/minecraft/world/level/block/entity/BlockEntityType$BlockEntitySupplier;Ljava/util/Set;)V
+accessible  field    net/minecraft/world/item/BucketItem   content  Lnet/minecraft/world/level/material/Fluid;
+mutable  field    net/minecraft/world/item/BucketItem   content  Lnet/minecraft/world/level/material/Fluid;
+mutable  field    net/minecraft/world/level/block/LiquidBlock   fluid   Lnet/minecraft/world/level/material/Fluid;
+accessible  field    net/minecraft/core/registries/BuiltInRegistries   WRITABLE_REGISTRY  Lnet/minecraft/core/WritableRegistry;
+accessible  field    net/minecraft/core/registries/BuiltInRegistries   LOADERS  Ljava/util/Map;

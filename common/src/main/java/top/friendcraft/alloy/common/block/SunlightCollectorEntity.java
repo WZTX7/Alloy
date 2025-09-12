@@ -41,7 +41,7 @@ public class SunlightCollectorEntity extends BaseContainerBlockEntity implements
     private final RecipeManager.CachedCheck<SingleRecipeInput, SunlightRecipe> quickCheck;
 
     public SunlightCollectorEntity(BlockPos pos, BlockState blockState) {
-        super(Alloy.sunlight_collector_entity.get(), pos, blockState);
+        super(Alloy.blocks.sunlight_collector_entity.get(), pos, blockState);
         this.dataAccess = new ContainerData() {
             @Override
             public int get(int index) {
@@ -68,7 +68,7 @@ public class SunlightCollectorEntity extends BaseContainerBlockEntity implements
                 return 3;
             }
         };
-        this.quickCheck = RecipeManager.createCheck(Alloy.sunlight_recipe.get());
+        this.quickCheck = RecipeManager.createCheck(Alloy.blocks.sunlight_recipe.get());
     }
 
     @Override

@@ -1,280 +1,71 @@
 package top.friendcraft.alloy;
 
 import com.mojang.logging.LogUtils;
-import dev.architectury.core.fluid.ArchitecturyFlowingFluid;
-import dev.architectury.core.fluid.ArchitecturyFluidAttributes;
-import dev.architectury.core.fluid.SimpleArchitecturyFluidAttributes;
-import dev.architectury.core.item.ArchitecturyBucketItem;
-import dev.architectury.registry.CreativeTabRegistry;
 import dev.architectury.registry.fuel.FuelRegistry;
-import dev.architectury.registry.menu.MenuRegistry;
-import dev.architectury.registry.registries.DeferredRegister;
-import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.MenuAccess;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.*;
-import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.crafting.*;
-import net.minecraft.world.item.equipment.ArmorMaterial;
-import net.minecraft.world.item.equipment.ArmorType;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.PushReaction;
 import org.slf4j.Logger;
-import top.friendcraft.alloy.common.block.*;
-import top.friendcraft.alloy.common.item.ArmorSet;
 import top.friendcraft.alloy.common.item.InputData;
-import top.friendcraft.alloy.common.item.crafting.MeltingRecipe;
-import top.friendcraft.alloy.common.item.crafting.SunlightRecipe;
+import top.friendcraft.alloy.core.modules.AlloysModule;
+import top.friendcraft.alloy.core.modules.ArmorsModule;
+import top.friendcraft.alloy.core.modules.BlockModule;
+import top.friendcraft.alloy.core.modules.ExtraModule;
+import top.friendcraft.alloy.core.registry.RegistryHolder;
+import top.friendcraft.alloy.core.services.ServicesManager;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Supplier;
 
 public final class Alloy {
     // Mod Default Settings
     public static final String MOD_ID = "alloy";
 
-
     // Class Logger
     private static final Logger LOGGER = LogUtils.getLogger();
-
-
-    // Deferred Registers
-    private static final DeferredRegister<Item> Items = DeferredRegister.create(MOD_ID, Registries.ITEM);
-    private static final DeferredRegister<Block> Blocks = DeferredRegister.create(MOD_ID, Registries.BLOCK);
-    private static final DeferredRegister<Potion> Potions = DeferredRegister.create(MOD_ID, Registries.POTION);
-    private static final DeferredRegister<MobEffect> Effects = DeferredRegister.create(MOD_ID, Registries.MOB_EFFECT);
-    private static final DeferredRegister<BlockEntityType<?>> Tiles = DeferredRegister.create(MOD_ID, Registries.BLOCK_ENTITY_TYPE);
-    private static final DeferredRegister<RecipeType<?>> Recipes = DeferredRegister.create(MOD_ID, Registries.RECIPE_TYPE);
-    private static final DeferredRegister<RecipeSerializer<?>> Serializers = DeferredRegister.create(MOD_ID, Registries.RECIPE_SERIALIZER);
-    private static final DeferredRegister<MenuType<?>> Menus = DeferredRegister.create(MOD_ID, Registries.MENU);
-    private static final DeferredRegister<CreativeModeTab> Tabs = DeferredRegister.create(MOD_ID, Registries.CREATIVE_MODE_TAB);
-    private static final DeferredRegister<EntityType<?>> Entities = DeferredRegister.create(MOD_ID, Registries.ENTITY_TYPE);
-    private static final DeferredRegister<Fluid> Fluids = DeferredRegister.create(MOD_ID, Registries.FLUID);
-
-
-    // Holders
-    // Creative Mode Tabs
-    public static RegistrySupplier<CreativeModeTab> alloys, blocks, armors;
-
-    // Items
-    // Basic Items
-    public static RegistrySupplier<Item> obsidianite_ingot, rose_gold_ingot, enhanced_netherite_ingot, steel_ingot;
-    public static RegistrySupplier<Item> sunlight_coal, active_sunlight_coal, clean_coal, anthracite;
-    // Armors
-    public static ArmorSet obsidanites, rose_golds, enhanced_netherites, steels;
-    // Buckets
-    public static RegistrySupplier<Item> melted_sunlight_bucket;
-
-    // Blocks
-    // Melt Core
-    public static BlockWithItem<LeveledMeltFurnaceCore> base_core, steel_core;
-    public static RegistrySupplier<BlockEntityType<LeveledMeltingEntity>> base_entity, steel_entity;
-    public static RegistrySupplier<MenuType<LeveledMeltingControlMenu>> base_menu, steel_menu;
-    public static RegistrySupplier<RecipeType<MeltingRecipe>> recipe;
-    public static RegistrySupplier<RecipeSerializer<MeltingRecipe>> serializer;
-    // Sunlight Collector
-    public static BlockWithItem<SunlightCollector> sunlight_collector;
-    public static RegistrySupplier<BlockEntityType<SunlightCollectorEntity>> sunlight_collector_entity;
-    public static RegistrySupplier<MenuType<SunlightCollectorMenu>> sunlight_collector_menu;
-    public static RegistrySupplier<RecipeType<SunlightRecipe>> sunlight_recipe;
-    public static RegistrySupplier<RecipeSerializer<SunlightRecipe>> sunlight_serializer;
-    // Ladders
-    public static BlockWithItem<LadderScaffold> deepslate_ladder;
-
-    // Fluids
-    // Fuels
-    public static RegistrySupplier<? extends ArchitecturyFlowingFluid> melted_sunlight_source, melted_sunlight_flowing;
-    public static SimpleArchitecturyFluidAttributes meltedSunlightProperty;
 
     // Melting Settings
     public static List<InputData[]> inputData = new ArrayList<>();
 
+    // Register Modules
+    public static AlloysModule alloys;
+    public static ArmorsModule armors;
+    public static BlockModule blocks;
+    public static ExtraModule extras;
+
 
     public static void init() {
+        ServicesManager.initialize();
         log("Input Data");
         inputData.addAll(List.of(new InputData[0], new InputData[]{
                 new InputData(4, 1, 20, 16),
                 new InputData(1, 1, 47, 53, 32)
         }));
-        log("Items");
-        obsidianite_ingot = registerSimpleItem("obsidianite_ingot");
-        rose_gold_ingot = registerSimpleItem("rose_gold_ingot");
-        enhanced_netherite_ingot = registerSimpleItem("enhanced_netherite_ingot");
-        steel_ingot = registerSimpleItem("steel_ingot");
-        sunlight_coal = registerSimpleItem("sunlight_coal");
-        active_sunlight_coal = registerSimpleItem("active_sunlight_coal");
-        obsidanites = registerArmors("obsidianite", ArmorSet.OBSIDIANITE);
-        rose_golds = registerArmors("rose_golden", ArmorSet.ROSE_GOLD);
-        enhanced_netherites = registerArmors("enhanced_netherite", ArmorSet.ENHANCED_NETHERITE);
-        steels = registerArmors("steel", ArmorSet.STEEL);
-        log("Melting Blocks");
-        base_core = registerBlockWithItem("base_melt_furnace_core",
-                properties -> new LeveledMeltFurnaceCore(properties, 1),
-                BlockBehaviour.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.BLAST_FURNACE),
-                new Item.Properties()
-        );
-        base_entity = registerTile("base_melting", (blockPos, blockState) -> new LeveledMeltingEntity(blockPos, blockState, 1), base_core.block);
-        base_menu = registerMenu("base_melting", (containerId, inventory) -> new LeveledMeltingControlMenu(containerId, inventory, 1), LeveledMeltingControlScreen::new);
-        recipe = registerRecipeType("melting");
-        serializer = registerSerializer("melting", MeltingRecipe.Serializer::new);
-        sunlight_collector = registerBlockWithItem("sunlight_collector", SunlightCollector::new);
-        sunlight_collector_entity = registerTile("sunlight_collector", SunlightCollectorEntity::new, sunlight_collector.block);
-        sunlight_collector_menu = registerMenu("sunlight_collector", SunlightCollectorMenu::new, SunlightCollectorScreen::new);
-        sunlight_recipe = registerRecipeType("sunlight_recipe");
-        sunlight_serializer = registerSerializer("sunlight_recipe", SunlightRecipe.Serializer::new);
-        deepslate_ladder = registerBlockWithItem("deepslate_ladder_block", LadderScaffold::new,
-                BlockBehaviour.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.LADDER)
-                        .sound(SoundType.DEEPSLATE_BRICKS)
-                        .pushReaction(PushReaction.BLOCK)
-                        .noCollission(),
-                new Item.Properties()
-        );
-        log("Creative Mode Tabs");
-        alloys = registerTab("alloys", obsidianite_ingot);
-        armors = registerTab("alloy_armors", obsidanites.chest());
-        blocks = registerTab("alloy_blocks", base_core.item);
-        meltedSunlightProperty = SimpleArchitecturyFluidAttributes.of(melted_sunlight_flowing, melted_sunlight_source);
-        meltedSunlightProperty.bucketItem(melted_sunlight_bucket);
-        melted_sunlight_source = registerFluid("melted_sunlight", meltedSunlightProperty, ArchitecturyFlowingFluid.Source.class);
-        melted_sunlight_flowing = registerFluid("melted_sunlight", meltedSunlightProperty, ArchitecturyFlowingFluid.Flowing.class);
-        melted_sunlight_bucket = registerBucketItem("melted_sunlight_bucket", melted_sunlight_source);
-        register();
-    }
-
-    private static void register() {
-        Fluids.register();
-        Blocks.register();
-        Items.register();
-        Potions.register();
-        Effects.register();
-        Tiles.register();
-        Recipes.register();
-        Serializers.register();
-        Menus.register();
-        Tabs.register();
-        Entities.register();
+        log("Registry Modules");
+        alloys = new AlloysModule();
+        armors = new ArmorsModule();
+        blocks = new BlockModule();
+        extras = new ExtraModule();
     }
 
     public static void registerFuels() {
-        FuelRegistry.register(2400, sunlight_coal.value());
-        FuelRegistry.register(4800, active_sunlight_coal.value());
+        FuelRegistry.register(2400, alloys.sunlight_coal.value());
+        FuelRegistry.register(4800, alloys.active_sunlight_coal.value());
     }
 
     private static void log(String message) {
-        LOGGER.info("Register "+message+";");
+        LOGGER.info("Register {};", message);
     }
 
-    private static RegistrySupplier<CreativeModeTab> registerTab(String id, Holder<? extends Item> icon) {
-        return Tabs.register(id, () -> CreativeTabRegistry.create(Component.translatable("itemGroup."+id), () -> new ItemStack(icon.value(), 1)));
+    public static ResourceLocation getIdentifier(String id) {
+        return ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, id);
     }
 
-    private static <I extends Item> RegistrySupplier<I> registerItem(String id, Function<Item.Properties, I> factory, Item.Properties properties) {
-        return Items.register(id, () -> factory.apply(
-                properties.setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, id)))
-        ));
+    public static <T> ResourceKey<T> getRegistryKey(ResourceKey<? extends Registry<T>> registry, String id) {
+        return ResourceKey.create(registry, getIdentifier(id));
     }
 
-    private static <I extends Item> RegistrySupplier<I> registerItem(String id, Function<Item.Properties, I> factory) {
-        return registerItem(id, factory, new Item.Properties());
-    }
-
-    private static RegistrySupplier<Item> registerSimpleItem(String id, Item.Properties properties) {
-        return registerItem(id, property -> new Item(property.arch$tab(alloys)), properties);
-    }
-
-    private static RegistrySupplier<Item> registerSimpleItem(String id) {
-        return registerItem(id, property -> new Item(property.arch$tab(alloys)), new Item.Properties());
-    }
-
-    private static RegistrySupplier<Item> registerBucketItem(String id, Supplier<? extends Fluid> fluid) {
-        return Items.register(id, () -> new ArchitecturyBucketItem(fluid, new Item.Properties().setId(
-                ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, id))
-        )));
-    }
-
-    private static ArmorSet registerArmors(String id, ArmorMaterial armorMaterial) {
-        RegistrySupplier<ArmorItem> head = registerItem(id+"_helmet", properties -> new ArmorItem(armorMaterial, ArmorType.HELMET, properties.arch$tab(armors)));
-        RegistrySupplier<ArmorItem> chest = registerItem(id+"_chestplate", properties -> new ArmorItem(armorMaterial, ArmorType.CHESTPLATE, properties.arch$tab(armors)));
-        RegistrySupplier<ArmorItem> leg = registerItem(id+"_leggings", properties -> new ArmorItem(armorMaterial, ArmorType.LEGGINGS, properties.arch$tab(armors)));
-        RegistrySupplier<ArmorItem> feet = registerItem(id+"_boots", properties -> new ArmorItem(armorMaterial, ArmorType.BOOTS, properties.arch$tab(armors)));
-        return new ArmorSet(head, chest, leg, feet);
-    }
-
-    private static <B extends Block> RegistrySupplier<B> registerBlock(String id, Function<BlockBehaviour.Properties, B> factory, BlockBehaviour.Properties properties) {
-        return Blocks.register(id, () -> factory.apply(
-                properties.setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, id)))
-        ));
-    }
-
-    private static <B extends Block> BlockWithItem<B> registerBlockWithItem(String id, Function<BlockBehaviour.Properties, B> factory, BlockBehaviour.Properties properties, Item.Properties itemProperties) {
-        RegistrySupplier<B> x = registerBlock(id, factory, properties);
-        return new BlockWithItem<>(x, registerItem(id, p -> new BlockItem(x.get(), p.arch$tab(blocks)), itemProperties));
-    }
-
-    private static <B extends Block> BlockWithItem<B> registerBlockWithItem(String id, Function<BlockBehaviour.Properties, B> factory) {
-        return registerBlockWithItem(id, factory, BlockBehaviour.Properties.of(), new Item.Properties());
-    }
-
-    @SafeVarargs
-    private static <T extends BlockEntity> RegistrySupplier<BlockEntityType<T>> registerTile(String id, Alloy.BlockEntitySupplier<T> factory, Supplier<? extends Block>... validBlocks) {
-        return Tiles.register(id, () -> new BlockEntityType<>(factory::create, Set.of(Arrays.stream(validBlocks).map(Supplier::get).toArray(Block[]::new))));
-    }
-
-    private static <T extends AbstractContainerMenu, S extends Screen & MenuAccess<T>> RegistrySupplier<MenuType<T>> registerMenu(String id, MenuType.MenuSupplier<T> factory, MenuRegistry.ScreenFactory<T, S> screenFactory) {
-        MenuType<T> type = MenuRegistry.ofExtended((a, b, c) -> factory.create(a, b));
-        MenuRegistry.registerScreenFactory(type, screenFactory);
-        return Menus.register(id, () -> type);
-    }
-
-    private static <T extends Recipe<?>> RegistrySupplier<RecipeType<T>> registerRecipeType(String id) {
-        return Recipes.register(id, () -> new RecipeType<T>() {
-            @Override
-            public String toString() {
-                return ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, id).toString();
-            }
-        });
-    }
-
-    private static <T extends Recipe<?>> RegistrySupplier<RecipeSerializer<T>> registerSerializer(String id, Supplier<? extends RecipeSerializer<T>> factory) {
-        return Serializers.register(id, factory);
-    }
-
-    private static <T extends ArchitecturyFlowingFluid> RegistrySupplier<T> registerFluid(String id, ArchitecturyFluidAttributes attributesMemory, Class<T> clazz) throws RuntimeException {
-        return Fluids.register(id, () -> {
-            try {
-                return clazz.getConstructor(ArchitecturyFluidAttributes.class).newInstance(attributesMemory);
-            } catch (InstantiationException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(clazz.toString(), e);
-            }
-        });
-    }
-
-    private static RegistrySupplier<ArchitecturyFlowingFluid.Flowing> registerFlowing(String id, ArchitecturyFluidAttributes attributesMemory, Function<ArchitecturyFluidAttributes, ArchitecturyFlowingFluid.Flowing> func){
-        return Fluids.register(id, () -> func.apply(attributesMemory));
-    }
-
-    @FunctionalInterface
-    private interface BlockEntitySupplier<T extends BlockEntity> {
-        T create(BlockPos blockPos, BlockState blockState);
+    public static <T> ResourceKey<Registry<T>> createRegistryKey(String id) {
+        return ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, id));
     }
 
 }
