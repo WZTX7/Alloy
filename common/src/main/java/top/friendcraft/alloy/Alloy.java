@@ -11,7 +11,6 @@ import top.friendcraft.alloy.core.modules.AlloysModule;
 import top.friendcraft.alloy.core.modules.ArmorsModule;
 import top.friendcraft.alloy.core.modules.BlockModule;
 import top.friendcraft.alloy.core.modules.ExtraModule;
-import top.friendcraft.alloy.core.registry.RegistryHolder;
 import top.friendcraft.alloy.core.services.ServicesManager;
 
 import java.util.*;
@@ -37,7 +36,7 @@ public final class Alloy {
         ServicesManager.initialize();
         log("Input Data");
         inputData.addAll(List.of(new InputData[0], new InputData[]{
-                new InputData(4, 1, 20, 16),
+                new InputData(4, 1, 20, 17),
                 new InputData(1, 1, 47, 53, 32)
         }));
         log("Registry Modules");

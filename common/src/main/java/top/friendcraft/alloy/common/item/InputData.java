@@ -24,40 +24,31 @@ public record InputData(int width, int height, int xPos, int yPos,
     @NotNull
     @Override
     public Iterator<Function<Container, Slot>> iterator() {
-        return new DataIterator(width, height, xPos, yPos, base);
+        return new DataIterator();
     }
 
-    private static class DataIterator implements Iterator<Function<Container, Slot>> {
+    private class DataIterator implements Iterator<Function<Container, Slot>> {
 
-        int width, height, xPos, yPos, base;
         int i = 0, j = 0;
-
-        public DataIterator(int width, int height, int xPos, int yPos, int base) {
-            this.width = width;
-            this.height = height;
-            this.xPos = xPos;
-            this.yPos = yPos;
-            this.base = base;
-        }
 
         @Override
         public boolean hasNext() {
-            return j < height;
+            return this.j < InputData.this.height;
         }
 
         @Override
         public Function<Container, Slot> next() {
-            int id = j * width + i + this.base;
-            int x = xPos + i * 18;
-            int y = yPos + j * 18;
+            int id = j * InputData.this.width + i + InputData.this.base;
+            int x = InputData.this.xPos + i * 18;
+            int y = InputData.this.yPos + j * 18;
             Function<Container, Slot> factory = container -> new Slot(container, id, x, y);
             LOGGER.info(String.valueOf(id));
-            i++;
-            if (i >= width) {
-                i = 0;
-                j++;
+            this.i++;
+            if (this.i >= InputData.this.width) {
+                this.i = 0;
+                this.j++;
             }
-            LOGGER.info("i: {}, j: {}", i, j);
+            LOGGER.info("i: {}, j: {}", this.i, this.j);
             return factory;
         }
     }
