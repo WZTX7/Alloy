@@ -1,5 +1,4 @@
 package top.friendcraft.alloy.common.item;
 
-public class ModularItemComponent {
-
+public class ComponentStack {
 }

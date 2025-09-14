@@ -10,7 +10,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.*;
@@ -28,8 +27,6 @@ import org.jetbrains.annotations.NotNull;
 import top.friendcraft.alloy.Alloy;
 import top.friendcraft.alloy.common.block.BlockWithItem;
 import top.friendcraft.alloy.common.item.ArmorSet;
-import top.friendcraft.alloy.common.item.ModularItemComponent;
-import top.friendcraft.alloy.core.registry.DeferredSupplier;
 import top.friendcraft.alloy.core.registry.RegistryHolder;
 import top.friendcraft.alloy.core.services.ServicesManager;
 import top.friendcraft.alloy.core.registry.RegistrySupplier;
@@ -100,7 +97,7 @@ public class RegisterModule {
 
     protected <B extends Block> RegistrySupplier<Block, B> registerBlock(String id, Function<BlockBehaviour.Properties, B> factory, BlockBehaviour.Properties properties) {
         return RegistryHolder.Blocks.register(id, () -> factory.apply(
-                properties.setId(ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, id)))
+                properties.setId(ResourceKey.create(Registries.BLOCK, Alloy.getIdentifier(id)))
         ));
     }
 
@@ -128,7 +125,7 @@ public class RegisterModule {
         return RegistryHolder.Recipes.register(id, () -> new RecipeType<>() {
             @Override
             public String toString() {
-                return ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, id).toString();
+                return Alloy.getIdentifier(id).toString();
             }
         });
     }
@@ -150,10 +147,6 @@ public class RegisterModule {
 
     protected RegistrySupplier<Fluid, ArchitecturyFlowingFluid.Flowing> registerFlowing(String id, ArchitecturyFluidAttributes attributesMemory, Function<ArchitecturyFluidAttributes, ArchitecturyFlowingFluid.Flowing> func) {
         return RegistryHolder.Fluids.register(id, () -> func.apply(attributesMemory));
-    }
-
-    protected RegistrySupplier<ModularItemComponent, ModularItemComponent> registerComponent(String id, ModularItemComponent component) {
-        return RegistryHolder.ModularComponents.register(id, () -> component);
     }
 
     public String getId() {

@@ -1,8 +1,6 @@
 package top.friendcraft.alloy.core.registry;
 
 import net.minecraft.core.*;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
@@ -17,23 +15,12 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import top.friendcraft.alloy.Alloy;
-import top.friendcraft.alloy.common.item.ModularItemComponent;
-import top.friendcraft.alloy.core.services.FluidService;
-import top.friendcraft.alloy.core.services.RegisterService;
 import top.friendcraft.alloy.core.services.ServicesManager;
-import top.friendcraft.alloy.core.registry.DeferredRegister;
 
 public class RegistryHolder {
     public static class Registries {
-        public static final ResourceKey<Registry<ModularItemComponent>> MODULAR_ITEM_COMPONENT = Alloy.createRegistryKey("modular_item_component");
     }
     public static class BuiltinRegistries {
-        public static final Registry<ModularItemComponent> MODULAR_ITEM_COMPONENT = ServicesManager.REGISTER_SERVICE.registerRegistryByPlatform(
-                new RegisterService.RegistryProperties<>(Registries.MODULAR_ITEM_COMPONENT)
-                        .maxId(1024)
-                        .defaultKey(Alloy.getIdentifier("empty"))
-        );
-
     }
 
     public static final DeferredRegister<Item> Items = DeferredRegister.create(Alloy.MOD_ID, net.minecraft.core.registries.Registries.ITEM);
@@ -47,13 +34,11 @@ public class RegistryHolder {
     public static final DeferredRegister<CreativeModeTab> Tabs = DeferredRegister.create(Alloy.MOD_ID, net.minecraft.core.registries.Registries.CREATIVE_MODE_TAB);
     public static final DeferredRegister<EntityType<?>> Entities = DeferredRegister.create(Alloy.MOD_ID, net.minecraft.core.registries.Registries.ENTITY_TYPE);
     public static final DeferredRegister<Fluid> Fluids = DeferredRegister.create(Alloy.MOD_ID, net.minecraft.core.registries.Registries.FLUID);
-    public static final DeferredRegister<ModularItemComponent> ModularComponents = DeferredRegister.create(Alloy.MOD_ID, Registries.MODULAR_ITEM_COMPONENT);
 
     public static void register() {
         Fluids.register();
         Blocks.register();
         Items.register();
-        ModularComponents.register();
         ServicesManager.FLUID_SERVICE.callBucketRegister();
         Potions.register();
         Effects.register();

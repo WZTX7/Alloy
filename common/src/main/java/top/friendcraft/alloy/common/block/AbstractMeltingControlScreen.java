@@ -11,8 +11,8 @@ import top.friendcraft.alloy.Alloy;
 
 public class AbstractMeltingControlScreen<T extends AbstractMeltingControlMenu> extends AbstractContainerScreen<T> {
     private final ResourceLocation texture;
-    private final ResourceLocation litProgressSprite = ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, "container/melting_core/lit_progress");
-    private final ResourceLocation burnProgressSprite = ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, "container/melting_core/burn_progress");
+    private final ResourceLocation litProgressSprite = Alloy.getIdentifier("container/melting_core/lit_progress");
+    private final ResourceLocation burnProgressSprite = Alloy.getIdentifier("container/melting_core/burn_progress");
     public AbstractMeltingControlScreen(T menu, Inventory playerInventory, Component title, ResourceLocation texture) {
         super(menu, playerInventory, title);
         this.texture = texture;

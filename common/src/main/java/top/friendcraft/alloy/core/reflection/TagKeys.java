@@ -9,6 +9,6 @@ import top.friendcraft.alloy.Alloy;
 public class TagKeys {
     public static final TagKey<EntityType<?>> LADDER_CLIMBABLE = createEntityType("ladder_climbable");
     private static TagKey<EntityType<?>> createEntityType(String name) {
-        return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, name));
+        return TagKey.create(Registries.ENTITY_TYPE, Alloy.getIdentifier(name));
     }
 }

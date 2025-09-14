@@ -64,7 +64,7 @@ public final class Alloy {
     }
 
     public static <T> ResourceKey<Registry<T>> createRegistryKey(String id) {
-        return ResourceKey.createRegistryKey(ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, id));
+        return ResourceKey.createRegistryKey(getIdentifier(id));
     }
 
 }

@@ -10,9 +10,9 @@ import net.minecraft.world.entity.player.Inventory;
 import top.friendcraft.alloy.Alloy;
 
 public class SunlightCollectorScreen extends AbstractContainerScreen<SunlightCollectorMenu> {
-    private final ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, "textures/gui/container/sunlight_collector.png");
-    private final ResourceLocation burnProgressSprite = ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, "container/sunlight_collector/burn_progress");
-    private final ResourceLocation collectingProgressSprite = ResourceLocation.fromNamespaceAndPath(Alloy.MOD_ID, "container/sunlight_collector/collect_progress");
+    private final ResourceLocation texture = Alloy.getIdentifier("textures/gui/container/sunlight_collector.png");
+    private final ResourceLocation burnProgressSprite = Alloy.getIdentifier("container/sunlight_collector/burn_progress");
+    private final ResourceLocation collectingProgressSprite = Alloy.getIdentifier("container/sunlight_collector/collect_progress");
     public SunlightCollectorScreen(SunlightCollectorMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
